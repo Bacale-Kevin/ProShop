@@ -21,7 +21,7 @@ const LoginScreen = ({ location, history }) => {
     useEffect(() => {
         //* user info is going to be null if we are not log in since it will not be present in the localStorage
         if(userInfo){
-            //* want to redirect the user if he is already log in
+            //* want to redirect the user if he is already log in 
             history.push(redirect)
         }
     }, [redirect, userInfo]) 
