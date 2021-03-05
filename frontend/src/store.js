@@ -6,19 +6,33 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducers";
 import { cartReducer } from "./reducers/cartReducers";
+import { userLoginReducer } from "./reducers/userReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cart: cartReducer,
+  userLogin: userLoginReducer,
 });
 
+//! initialising the state of the cart with values from the localStorage
 const cartItemFromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
+/**
+ **
+ * * Initially these peace of code is aim at collecting the user found in the localStorage
+ * * and adding him to the userInfo state found in the reducer
+ */
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+//! it's possible to initialise the state found in the reducer here in the  : * )
 const initialState = {
-    cart: {cartItems: cartItemFromStorage}
+  cart: { cartItems: cartItemFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];

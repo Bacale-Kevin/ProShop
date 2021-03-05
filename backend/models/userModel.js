@@ -33,6 +33,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 //! these is a middleware that executes before the mongoose save method is called
 //! before the save method encrypt the password
+//* These peace of code handles the encryption of user password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
