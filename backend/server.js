@@ -4,6 +4,7 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 
 import productRoute from "./routes/productRoute.js";
+import userRoute from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -12,20 +13,22 @@ connectDB();
 
 const app = express();
 
+//body parser middleware
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.json({ message: "API is running..." });
 });
 
 app.use("/api/products", productRoute);
+app.use("/api/users", userRoute);
 
-
-//Handling wrong URL routes by sending back 404 status code 
+//Handling wrong URL routes by sending back 404 status code
 app.use((req, res, next) => {
-    const error = new Error(`Not Found - ${req.originalUrl}`)
-    res.status(404);
-    next(error)
-})
-
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+});
 
 //custom express error handling
 app.use((err, req, res, next) => {

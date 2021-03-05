@@ -1,5 +1,11 @@
-import {PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS} from '../constants/productConstants'
-
+import {
+  PRODUCT_LIST_FAIL,
+  PRODUCT_LIST_REQUEST,
+  PRODUCT_LIST_SUCCESS,
+  PRODUCT_DETAILS_FAIL,
+  PRODUCT_DETAILS_REQUEST,
+  PRODUCT_DETAILS_SUCCESS,
+} from "../constants/productConstants";
 
 export const productListReducer = (state = { products: [] }, action) => {
   const { type, payload } = action;
@@ -22,6 +28,33 @@ export const productListReducer = (state = { products: [] }, action) => {
       };
 
     default:
-      return state
+      return state;
+  }
+};
+
+export const productDetailsReducer = (
+  state = { product: { reviews: [] } },
+  action
+) => {
+  const { type, payload } = action;
+  switch (type) {
+    case PRODUCT_DETAILS_REQUEST:
+      return {
+        loading: true,
+        ...state,
+      };
+    case PRODUCT_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        product: payload,
+      };
+    case PRODUCT_LIST_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+
+    default:
+      return state;
   }
 };
