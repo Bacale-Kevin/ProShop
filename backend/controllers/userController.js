@@ -75,4 +75,36 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, getUserProfile };
+//*@desc   Update user profile
+//*@route  PUT /api/users/profile
+//*@access Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  //* req.user has the id of the logged in user so we can now get the profile
+  //* base on the ID of the logged in user
+
+  const user = await User.findById(req.user._id);
+
+  //* In these scenario when registering a user we assign generate a token immidiately
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("Invalid user data ");
+  }
+});
+
+export { authUser, registerUser, getUserProfile, updateUserProfile };

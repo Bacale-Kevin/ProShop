@@ -27,7 +27,7 @@ const RegisterScreen = ({ location, history }) => {
       //* want to redirect the user if he is already log in
       history.push(redirect);
     }
-  }, [redirect, userInfo]);
+  }, [history, redirect, userInfo]);
 
   const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ const RegisterScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>Sign Up</h1>
+      <h2>User Profile</h2>
       {message && <Message variant="danger">{message}</Message>}
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
@@ -88,7 +88,7 @@ const RegisterScreen = ({ location, history }) => {
         </Form.Group>
 
         <Button type="submit" variant="primary">
-          Register
+          Update
         </Button>
       </Form>
       <Row className="py-3">
