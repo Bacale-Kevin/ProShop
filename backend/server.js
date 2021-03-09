@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 
 import productRoute from "./routes/productRoute.js";
 import userRoute from "./routes/userRoutes.js";
+import oderRoutes from "./routes/oderRoutes.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productRoute);
 app.use("/api/users", userRoute);
+app.use("/api/orders", oderRoutes);
 
 //Handling wrong URL routes by sending back 404 status code
 app.use((req, res, next) => {

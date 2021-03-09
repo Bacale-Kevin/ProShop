@@ -15,7 +15,8 @@ import Message from "../components/Message";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
-  //in the routing  parameter found in the URL there is a quantity so we take that qty and cast it into a number
+  
+  //* in the routing  parameter found in the URL there is a quantity so we take that qty and cast it into a number
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
 
   const dispatch = useDispatch(addToCart);
@@ -24,9 +25,10 @@ const CartScreen = ({ match, location, history }) => {
 
   const { cartItems } = cart;
 
-  /*The general idea behind these component is that we want to pass the id and the qty found in the URL parameter
-    in the axios request in other to fectch the product and display it on the screen
-  */
+  /**
+   * * The general idea behind these component is that we want to pass the id and the qty found in the URL parameter
+   * * in the axios request in other to fectch the product and display it on the screen
+   */
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -34,13 +36,13 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
     //if the user is not logged in he will redirected to login else to <shipping></shipping>
     history.push("/login?redirect=shipping");
-  }
+  };
 
   return (
     <Row>
