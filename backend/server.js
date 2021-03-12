@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import colors from "colors";
 import connectDB from "./config/db.js";
@@ -14,6 +15,7 @@ connectDB();
 
 const app = express();
 
+app.use(cors())
 //body parser middleware
 app.use(express.json());
 
@@ -24,6 +26,11 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoute);
 app.use("/api/users", userRoute);
 app.use("/api/orders", oderRoutes);
+
+//* Paypal
+app.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
 
 //Handling wrong URL routes by sending back 404 status code
 app.use((req, res, next) => {
