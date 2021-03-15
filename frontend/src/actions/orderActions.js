@@ -5,6 +5,9 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_LIST_MY_FAIL,
+  ORDER_LIST_MY_REQUEST,
+  ORDER_LIST_MY_SUCCESS,
   ORDER_PAY_FAIL,
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
@@ -122,3 +125,45 @@ export const payOrder = (orderId, paymentResult) => async (
     });
   }
 };
+
+
+export const listMyOrders = () => async (
+    dispatch,
+    getState
+  ) => {
+    try {
+      dispatch({
+        type: ORDER_LIST_MY_REQUEST,
+      });
+      //* Getting the user userInfo found in localStorage to be sure the user is actually log in before placing an order
+      const {
+        userLogin: { userInfo },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+  
+      const { data } = await axios.get(
+        `/api/orders/myorders/order`,
+        config
+      );
+      //   console.log({data})
+  
+      dispatch({
+        type: ORDER_LIST_MY_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log({ error });
+      dispatch({
+        type: ORDER_LIST_MY_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
