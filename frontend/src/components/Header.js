@@ -2,7 +2,7 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 import { logout } from "../actions/userActions";
 
 const Header = ({ history }) => {
@@ -11,8 +11,7 @@ const Header = ({ history }) => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    
-    dispatch(logout())
+    dispatch(logout());
   };
 
   const loginNavbar = {};
@@ -46,6 +45,19 @@ const Header = ({ history }) => {
                     <i className="fas fa-user"></i> Sign In
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

@@ -15,7 +15,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
       //* The req.user now has the ID of logged in user token
       req.user = await User.findById(decoded.id).select("-password");
-      console.log(req.user.id)
+      console.log(req.user.id);
 
       next();
     } catch (error) {
@@ -31,4 +31,15 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { protect };
+
+//* admin middleware
+const admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as an admin");
+  }
+};
+
+export { protect, admin };

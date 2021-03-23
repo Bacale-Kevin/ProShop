@@ -36,13 +36,13 @@ const ProfileScreen = ({ location, history }) => {
       //* want to redirect the user if he is already log in
       history.push("/login");
     } else {
-      // if (!user.name) {
-      //   dispatch(getUserDetails("profile"));
-      //   dispatch(listMyOrders());
-      // } else {
-      //   setName("JOSE");
-      //   setEmail("bacale86@gmail.com");
-      // }
+      if (!user.name) {
+        dispatch(getUserDetails("profile"));
+        dispatch(listMyOrders());
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
     }
   }, [dispatch, history, userInfo, user]);
 
