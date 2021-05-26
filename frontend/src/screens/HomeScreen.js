@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { listProducts } from "../actions/productActions";
@@ -12,6 +12,7 @@ const HomeScreen = () => {
   //useSelector is used to bring out the state from the reducer
   const productList = useSelector((state) => state.productList);
   const { loading, products, error } = productList;
+  console.log({products})
 
   useEffect(() => {
     dispatch(listProducts());

@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import colors from "colors";
 import connectDB from "./config/db.js";
+import path from 'path';
+import morgan from 'morgan';  
 
 import productRoute from "./routes/productRoute.js";
 import userRoute from "./routes/userRoutes.js";
@@ -15,13 +17,10 @@ connectDB();
 
 const app = express();
 
-app.use(cors())
+app.use(morgan('combined'))
+app.use(cors());
 //body parser middleware
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.json({ message: "API is running..." });
-});
 
 app.use("/api/products", productRoute);
 app.use("/api/users", userRoute);
@@ -31,6 +30,22 @@ app.use("/api/orders", oderRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+const __dirname = path.resolve();
+
+//ready for production
+if (process.env.NODE_ENV === "production") {
+  //specifying that the build folder is static ready for production
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.json({ message: "API is running..." });
+  });
+}
 
 //Handling wrong URL routes by sending back 404 status code
 app.use((req, res, next) => {
